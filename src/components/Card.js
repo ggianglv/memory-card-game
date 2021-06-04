@@ -3,18 +3,15 @@ import React from "react";
 import "../styles/card.css";
 const Card = ({ image, cardIndex, setActive, active, removed }) => {
   const styles = {
-    background: `url(${image})`,
+    backgroundImage: `url(${image})`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     backgroundColor: "#dddddd",
   };
 
   let className = "flip-card";
-  if (active) {
+  if (active || removed) {
     className += " flip-card-active";
-  }
-  if (removed) {
-    className += " flip-card-removed";
   }
 
   return (

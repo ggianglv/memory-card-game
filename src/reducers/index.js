@@ -1,8 +1,10 @@
 import { LEVEL, TOPICS } from "../constants";
 import {
-  SET_INIT_DATA,
+  RESTORE_DATA,
+  UPDATE_DATA,
   SET_MODE,
   UPDATE_MOVE,
+  UPDATE_REMOVED,
   UPDATE_START,
   UPDATE_TIME,
   UPDATE_TOPIC,
@@ -13,12 +15,15 @@ const initData = generateGameData({ topic: TOPICS.RICK, mode: LEVEL.EASY });
 
 export const initialState = {
   move: 0,
-  resolved: {},
+  removed: {},
   time: 0,
   start: false,
   topic: TOPICS.RICK,
-  ...initData,
   mode: LEVEL.EASY,
+  isLoading: false,
+  complete: false,
+  history: [],
+  ...initData,
 };
 
 export const appReducer = (state, action) => {
@@ -33,7 +38,12 @@ export const appReducer = (state, action) => {
         ...data,
         mode: action.payload,
       };
-    case SET_INIT_DATA:
+    case RESTORE_DATA:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case UPDATE_DATA:
       return {
         ...state,
         ...action.payload,
@@ -53,6 +63,11 @@ export const appReducer = (state, action) => {
       return {
         ...state,
         time: state.time + 1,
+      };
+    case UPDATE_REMOVED:
+      return {
+        ...state,
+        removed: action.payload,
       };
     case UPDATE_TOPIC: {
       const data = generateGameData({

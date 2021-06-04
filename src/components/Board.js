@@ -6,8 +6,14 @@ import Card from "./Card";
 import { AppContext } from "../context";
 import { LEVEL } from "../constants";
 import { usePrevious } from "../utils/data";
-import { saveScore } from "../services/game";
-import { UPDATE_MOVE, UPDATE_START, UPDATE_TIME } from "../reducers/actions";
+import { saveGame } from "../services/game";
+import {
+  UPDATE_DATA,
+  UPDATE_MOVE,
+  UPDATE_REMOVED,
+  UPDATE_START,
+  UPDATE_TIME,
+} from "../reducers/actions";
 
 const Board = ({ openModal }) => {
   const [selected, setSelected] = useState({});
@@ -16,7 +22,6 @@ const Board = ({ openModal }) => {
   const { start, cards, cardData } = state;
   const timeoutId = useRef(null);
   const intervalId = useRef(null);
-  const [removedCard, setRemovedCard] = useState({});
 
   useEffect(() => {
     if (previousStart === false && state.start === true) {
@@ -28,30 +33,46 @@ const Board = ({ openModal }) => {
     }
 
     if (previousStart === true && state.start === false) {
+      clearInterval(intervalId.current);
       setSelected({});
-      setRemovedCard({});
     }
-  }, [state, previousStart, dispatch]);
+  }, [state.start, previousStart, dispatch]);
 
-  useEffect(() => {
-    if (Object.keys(removedCard).length === cards.length) {
-      //Win game
-      dispatch({
-        type: UPDATE_START,
-        payload: false,
-      });
-      saveScore({
-        time: state.time,
-        move: state.move,
-        mode: state.mode,
-      });
-
+  useEffect(async () => {
+    if (
+      Object.keys(state.removed).length === state.cards.length &&
+      state.start
+    ) {
+      const nextState = {
+        start: false,
+        complete: true,
+        history: [
+          {
+            time: state.time,
+            move: state.move,
+            mode: state.mode,
+          },
+          ...state.history,
+        ],
+      };
+      if (!state.complete) {
+        dispatch({
+          type: UPDATE_DATA,
+          payload: nextState,
+        });
+        await saveGame({ ...state, ...nextState }, state.id);
+      }
       openModal({
-        title: "New Game",
-        component: lazy(() => import("../components/NewGame")),
+        title: "Scores",
+        component: lazy(() => import("../components/History")),
       });
     }
-  }, [removedCard, cards, dispatch, openModal, state]);
+  }, [
+    dispatch,
+    state.complete,
+    state.cards.length,
+    Object.keys(state.removed).length,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -69,7 +90,7 @@ const Board = ({ openModal }) => {
     backgroundImage: `url(/images/${state.topic}.png)`,
   };
 
-  const setActive = (cardIndex) => {
+  const setActive = async (cardIndex) => {
     if (!start) {
       dispatch({ type: UPDATE_START, payload: true });
     }
@@ -103,10 +124,21 @@ const Board = ({ openModal }) => {
       timeoutId.current = setTimeout(() => {
         setSelected({});
       }, 1000);
-      setRemovedCard({
-        ...removedCard,
+      const nextRemoved = {
+        ...state.removed,
         [indexs[0]]: true,
         [indexs[1]]: true,
+      };
+      saveGame(
+        {
+          ...state,
+          removed: nextRemoved,
+        },
+        state.id
+      );
+      dispatch({
+        type: UPDATE_DATA,
+        payload: { removed: nextRemoved, id: localStorage.getItem("userId") },
       });
     }
   };
@@ -115,7 +147,7 @@ const Board = ({ openModal }) => {
     <div style={styles} className="board">
       {cards.map((cardIndex) => (
         <Card
-          removed={removedCard[cardIndex]}
+          removed={state.removed[cardIndex]}
           active={selected[cardIndex]}
           image={cardData[cardIndex]}
           selected={selected}

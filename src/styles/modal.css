@@ -69,6 +69,11 @@
   margin-right: 10px;
 }
 
+.play-history {
+  overflow-y: auto;
+  max-height: 290px;
+}
+
 .history-item .label {
   margin-right: 5px;
 }

@@ -18,7 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:server": "json-server -p 4000 --watch db.json"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +48,8 @@
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3"
   }
 }

@@ -1,4 +1,10 @@
-import React, { useReducer, useState, Suspense, useMemo } from "react";
+import React, {
+  useReducer,
+  useState,
+  Suspense,
+  useMemo,
+  useEffect,
+} from "react";
 import Board from "./components/Board";
 import "./App.css";
 import Menu from "./components/Menu";
@@ -6,11 +12,40 @@ import Title from "./components/Title";
 import Modal from "./components/Modal";
 import { appReducer, initialState } from "./reducers";
 import { AppContext } from "./context";
+import { uuidv4 } from "./utils/data";
+import { getUser } from "./services/game";
+import { RESTORE_DATA } from "./reducers/actions";
+
+let userId = localStorage.getItem("userId");
+if (!userId) {
+  userId = uuidv4();
+  localStorage.setItem("userId", userId);
+}
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [ModalComponent, setModalComponent] = useState(null);
   const [modalTitle, setModalTitle] = useState("");
+
+  useEffect(() => {
+    getUser(userId)
+      .then((user) => {
+        if (user.complete) {
+          return dispatch({
+            type: RESTORE_DATA,
+            payload: { id: user.id, history: user.history },
+          });
+        }
+
+        dispatch({
+          type: RESTORE_DATA,
+          payload: user,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [dispatch]);
 
   const openModal = ({ title, component }) => {
     setModalTitle(title);

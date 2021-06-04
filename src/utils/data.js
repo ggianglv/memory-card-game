@@ -27,6 +27,10 @@ export const generateGameData = ({ mode, topic }) => {
   return {
     cards,
     cardData,
+    start: false,
+    removed: {},
+    move: 0,
+    time: 0,
   };
 };
 
@@ -54,4 +58,12 @@ export const formatTime = (duration) => {
   ret += "" + secs;
 
   return ret;
+};
+
+export const uuidv4 = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 };
