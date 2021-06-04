@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useState, Suspense, useMemo } from "react";
+import Board from "./components/Board";
+import "./App.css";
+import Menu from "./components/Menu";
+import Title from "./components/Title";
+import Modal from "./components/Modal";
+import { appReducer, initialState } from "./reducers";
+import { AppContext } from "./context";
 
 function App() {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [ModalComponent, setModalComponent] = useState(null);
+  const [modalTitle, setModalTitle] = useState("");
+
+  const openModal = ({ title, component }) => {
+    setModalTitle(title);
+    setModalComponent(component);
+  };
+
+  const closeModal = () => {
+    setModalTitle("");
+    setModalComponent(null);
+  };
+
+  const onCloseModal = () => {
+    setModalComponent(null);
+  };
+
+  const contextValue = useMemo(() => {
+    return {
+      state,
+      dispatch,
+    };
+  }, [dispatch, state]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={contextValue}>
+      <div className="app">
+        <div className="container">
+          <Title />
+          <Board openModal={openModal} />
+          <Menu openModal={openModal} />
+
+          {ModalComponent && (
+            <Modal title={modalTitle} onClickClose={onCloseModal}>
+              <Suspense fallback={null}>
+                <ModalComponent closeModal={closeModal} />
+              </Suspense>
+            </Modal>
+          )}
+        </div>
+      </div>
+    </AppContext.Provider>
   );
 }
 

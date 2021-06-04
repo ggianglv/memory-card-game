@@ -1,0 +1,135 @@
+import React, { useState, useContext, useEffect, useRef, lazy } from "react";
+import PropTypes from "prop-types";
+
+import "../styles/board.css";
+import Card from "./Card";
+import { AppContext } from "../context";
+import { LEVEL } from "../constants";
+import { usePrevious } from "../utils/data";
+import { saveScore } from "../services/game";
+import { UPDATE_MOVE, UPDATE_START, UPDATE_TIME } from "../reducers/actions";
+
+const Board = ({ openModal }) => {
+  const [selected, setSelected] = useState({});
+  const { state, dispatch } = useContext(AppContext);
+  const previousStart = usePrevious(state.start);
+  const { start, cards, cardData } = state;
+  const timeoutId = useRef(null);
+  const intervalId = useRef(null);
+  const [removedCard, setRemovedCard] = useState({});
+
+  useEffect(() => {
+    if (previousStart === false && state.start === true) {
+      intervalId.current = setInterval(() => {
+        dispatch({
+          type: UPDATE_TIME,
+        });
+      }, 1000);
+    }
+
+    if (previousStart === true && state.start === false) {
+      setSelected({});
+      setRemovedCard({});
+    }
+  }, [state, previousStart, dispatch]);
+
+  useEffect(() => {
+    if (Object.keys(removedCard).length === cards.length) {
+      //Win game
+      dispatch({
+        type: UPDATE_START,
+        payload: false,
+      });
+      saveScore({
+        time: state.time,
+        move: state.move,
+        mode: state.mode,
+      });
+
+      openModal({
+        title: "New Game",
+        component: lazy(() => import("../components/NewGame")),
+      });
+    }
+  }, [removedCard, cards, dispatch, openModal, state]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutId.current);
+    };
+  }, []);
+
+  const mapHeight = {
+    [LEVEL.EASY]: 400,
+    [LEVEL.MEDIUM]: 500,
+    [LEVEL.HARD]: 600,
+  };
+  const styles = {
+    maxHeight: mapHeight[state.mode],
+    backgroundImage: `url(/images/${state.topic}.png)`,
+  };
+
+  const setActive = (cardIndex) => {
+    if (!start) {
+      dispatch({ type: UPDATE_START, payload: true });
+    }
+
+    if (Object.keys(selected).length === 0) {
+      dispatch({
+        type: UPDATE_MOVE,
+        payload: state.move + 1,
+      });
+    }
+
+    if (Object.keys(selected).length === 2) {
+      return;
+    }
+    const nextSelected = {
+      ...selected,
+      [cardIndex]: true,
+    };
+
+    setSelected(nextSelected);
+    const indexs = Object.keys(nextSelected);
+    const isFull = indexs.length === 2;
+    const isMatch = cardData[indexs[0]] === cardData[indexs[1]];
+    if (isFull && !isMatch) {
+      timeoutId.current = setTimeout(() => {
+        setSelected({});
+      }, 1000);
+    }
+
+    if (isFull && isMatch) {
+      timeoutId.current = setTimeout(() => {
+        setSelected({});
+      }, 1000);
+      setRemovedCard({
+        ...removedCard,
+        [indexs[0]]: true,
+        [indexs[1]]: true,
+      });
+    }
+  };
+
+  return (
+    <div style={styles} className="board">
+      {cards.map((cardIndex) => (
+        <Card
+          removed={removedCard[cardIndex]}
+          active={selected[cardIndex]}
+          image={cardData[cardIndex]}
+          selected={selected}
+          cardIndex={cardIndex}
+          setActive={setActive}
+          key={cardIndex}
+        />
+      ))}
+    </div>
+  );
+};
+
+Board.propTypes = {
+  cards: PropTypes.number,
+};
+
+export default Board;
