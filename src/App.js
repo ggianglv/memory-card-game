@@ -14,7 +14,7 @@ import { appReducer, initialState } from "./reducers";
 import { AppContext } from "./context";
 import { uuidv4 } from "./utils/data";
 import { getUser } from "./services/game";
-import { RESTORE_DATA } from "./reducers/actions";
+import { UPDATE_DATA } from "./reducers/actions";
 
 let userId = localStorage.getItem("userId");
 if (!userId) {
@@ -32,13 +32,13 @@ function App() {
       .then((user) => {
         if (user.complete) {
           return dispatch({
-            type: RESTORE_DATA,
+            type: UPDATE_DATA,
             payload: { id: user.id, history: user.history },
           });
         }
 
         dispatch({
-          type: RESTORE_DATA,
+          type: UPDATE_DATA,
           payload: user,
         });
       })

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal to match snapshot 1`] = `
+<div
+  className="modal show"
+>
+  <div
+    className="modal-content"
+  >
+    <div
+      className="modal-title"
+      data-testid="title"
+    />
+    <div
+      className="content-body"
+      data-testid="children"
+    />
+    <div
+      className="content-footer"
+    >
+      <div
+        className="close-button"
+      >
+        Close
+      </div>
+    </div>
+  </div>
+</div>
+`;

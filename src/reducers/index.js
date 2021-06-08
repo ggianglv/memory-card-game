@@ -1,6 +1,5 @@
 import { LEVEL, TOPICS } from "../constants";
 import {
-  RESTORE_DATA,
   UPDATE_DATA,
   SET_MODE,
   UPDATE_MOVE,
@@ -37,11 +36,6 @@ export const appReducer = (state, action) => {
         ...state,
         ...data,
         mode: action.payload,
-      };
-    case RESTORE_DATA:
-      return {
-        ...state,
-        ...action.payload,
       };
     case UPDATE_DATA:
       return {

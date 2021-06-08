@@ -4,5 +4,4 @@ export const UPDATE_MOVE = "UPDATE_MOVE";
 export const UPDATE_DATA = "SET_INIT_DATA";
 export const UPDATE_START = "UPDATE_START";
 export const UPDATE_TOPIC = "UPDATE_TOPIC";
-export const RESTORE_DATA = "RESTORE_DATA";
 export const UPDATE_REMOVED = "UPDATE_REMOVED";

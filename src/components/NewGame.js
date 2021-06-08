@@ -17,13 +17,13 @@ const NewGame = ({ closeModal }) => {
 
   return (
     <div className="new-game">
-      <div onClick={() => setMode(LEVEL.EASY)} className="modal-item">
+      <div data-testid="easy" onClick={() => setMode(LEVEL.EASY)} className="modal-item">
         Easy (4x4)
       </div>
-      <div onClick={() => setMode(LEVEL.MEDIUM)} className="modal-item">
+      <div data-testid="medium" onClick={() => setMode(LEVEL.MEDIUM)} className="modal-item">
         Medium (4x5)
       </div>
-      <div onClick={() => setMode(LEVEL.HARD)} className="modal-item">
+      <div data-testid="hard" onClick={() => setMode(LEVEL.HARD)} className="modal-item">
         Hard (4x6)
       </div>
     </div>

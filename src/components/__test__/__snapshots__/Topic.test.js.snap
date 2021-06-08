@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Topic to match snapshot 1`] = `
+<div
+  className="topic"
+>
+  <div
+    className="modal-item "
+    data-testid="pepe"
+    onClick={[Function]}
+  >
+    Pepe
+  </div>
+  <div
+    className="modal-item active"
+    data-testid="rick-and-morty"
+    onClick={[Function]}
+  >
+    Rick & morty
+  </div>
+</div>
+`;

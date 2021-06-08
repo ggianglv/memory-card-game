@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewGame to match snapshot 1`] = `
+<div
+  className="new-game"
+>
+  <div
+    className="modal-item"
+    data-testid="easy"
+    onClick={[Function]}
+  >
+    Easy (4x4)
+  </div>
+  <div
+    className="modal-item"
+    data-testid="medium"
+    onClick={[Function]}
+  >
+    Medium (4x5)
+  </div>
+  <div
+    className="modal-item"
+    data-testid="hard"
+    onClick={[Function]}
+  >
+    Hard (4x6)
+  </div>
+</div>
+`;

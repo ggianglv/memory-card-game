@@ -30,6 +30,7 @@ const Topic = ({ closeModal }) => {
         <div
           onClick={() => changeTopic(topic.key)}
           key={topic.key}
+          data-testid={topic.key}
           className={`modal-item ${topic.key === state.topic ? "active" : ""}`}
         >
           {topic.name}

@@ -12,5 +12,3 @@ test("render without crash", () => {
     </AppContext.Provider>
   );
 });
-
-

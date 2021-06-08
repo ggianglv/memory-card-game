@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu to match snapshot 1`] = `
+<div
+  className="menu"
+>
+  <div
+    className="item"
+  >
+    <div
+      className="item-wrap"
+    >
+      <div
+        className="label"
+      >
+        Move: 
+      </div>
+      <div
+        className="value"
+      >
+        0
+      </div>
+    </div>
+  </div>
+  <div
+    className="item"
+  >
+    <div
+      className="item-wrap"
+    >
+      <div
+        className="label"
+      >
+        Time: 
+      </div>
+      <div
+        className="value"
+      >
+        0:00
+      </div>
+    </div>
+  </div>
+  <div
+    className="item"
+  >
+    <button
+      className="custom-button"
+      onClick={[Function]}
+    >
+      Topic
+    </button>
+  </div>
+  <div
+    className="item"
+  >
+    <button
+      className="custom-button"
+      onClick={[Function]}
+    >
+      History
+    </button>
+  </div>
+  <div
+    className="item"
+  >
+    <button
+      className="custom-button"
+      onClick={[Function]}
+    >
+      New game
+    </button>
+  </div>
+</div>
+`;

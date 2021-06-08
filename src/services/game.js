@@ -1,4 +1,4 @@
-const API_PREFIX = "http://localhost:4000";
+const API_PREFIX = process.env.REACT_APP_API_PREFIX;
 
 export const saveGame = (data, savedId) => {
   const userId = localStorage.getItem("userId");
@@ -23,4 +23,3 @@ export const saveGame = (data, savedId) => {
 export const getUser = (userId) => {
   return fetch(`${API_PREFIX}/users/${userId}`).then((res) => res.json());
 };
-
