@@ -14,8 +14,15 @@ const Card = ({ image, cardIndex, setActive, active, removed }) => {
     className += " flip-card-active";
   }
 
+  const onCardClick = () => {
+    if (removed) {
+      return;
+    }
+    setActive(cardIndex);
+  };
+
   return (
-    <div onClick={() => setActive(cardIndex)} className={className}>
+    <div onClick={onCardClick} className={className}>
       <div className="flip-card-inner">
         <div className="flip-card-front" />
         <div style={styles} className="flip-card-back" />
