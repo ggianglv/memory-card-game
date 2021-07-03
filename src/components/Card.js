@@ -3,7 +3,7 @@ import React from "react";
 import "../styles/card.css";
 const Card = ({ image, cardIndex, setActive, active, removed }) => {
   const styles = {
-    backgroundImage: `url(${image})`,
+    backgroundImage: `url("${image}")`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     backgroundColor: "#dddddd",

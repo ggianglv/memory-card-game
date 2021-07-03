@@ -50,7 +50,7 @@ const Board = () => {
   };
   const styles = {
     maxHeight: mapHeight[state.mode],
-    backgroundImage: `url(/images/${state.topic}.png)`,
+    backgroundImage: `url("images/${state.topic}.png")`,
   };
 
   const setActive = async (cardIndex) => {
