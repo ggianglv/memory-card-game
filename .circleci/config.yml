@@ -10,5 +10,6 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
+            - run: node --version
             - run: npm install
-      - run: npm run build
+            - run: npm run build
