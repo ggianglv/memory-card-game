@@ -10,7 +10,6 @@ import { saveGame } from "../services/game";
 import {
   UPDATE_DATA,
   UPDATE_MOVE,
-  UPDATE_REMOVED,
   UPDATE_START,
   UPDATE_TIME,
 } from "../reducers/actions";
