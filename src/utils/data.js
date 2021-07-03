@@ -19,7 +19,7 @@ export const generateGameData = ({ mode, topic }) => {
       1
     );
     const image = arrayImages.shift();
-    const imageUrl = `/images/${topic}/${image}.png`;
+    const imageUrl = `images/${topic}/${image}.png`;
     cardData[first] = imageUrl;
     cardData[second] = imageUrl;
   }
