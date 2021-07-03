@@ -10,6 +10,5 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: node --version
-            - run: npm install
-            - run: npm run build
+            - run: yarn install
+            - run: yarn run build
