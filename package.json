@@ -1,6 +1,7 @@
 {
   "name": "memory-card-game",
   "version": "0.1.0",
+  "homepage": "https://ggianglv.github.io/memory-card-game",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -19,7 +20,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "start:server": "json-server -p 4000 --watch db.json"
+    "start:server": "json-server -p 4000 --watch db.json",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +57,7 @@
     "@babel/preset-react": "^7.13.13",
     "@testing-library/react-hooks": "^7.0.0",
     "babel-jest": "^27.0.2",
+    "gh-pages": "^3.2.3",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^27.0.4",
     "jest-watch-typeahead": "^0.6.4",
