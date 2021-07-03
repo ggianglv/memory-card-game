@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef, lazy } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 import "../styles/board.css";
@@ -14,7 +14,7 @@ import {
   UPDATE_TIME,
 } from "../reducers/actions";
 
-const Board = ({ openModal }) => {
+const Board = () => {
   const [selected, setSelected] = useState({});
   const { state, dispatch } = useContext(AppContext);
   const previousStart = usePrevious(state.start);
@@ -36,45 +36,6 @@ const Board = ({ openModal }) => {
       setSelected({});
     }
   }, [state.start, previousStart, dispatch]);
-
-  useEffect( () => {
-    if (
-      Object.keys(state.removed).length === state.cards.length &&
-      state.start
-    ) {
-      const nextState = {
-        start: false,
-        complete: true,
-        history: [
-          {
-            time: state.time,
-            move: state.move,
-            mode: state.mode,
-          },
-          ...state.history,
-        ],
-      };
-      if (!state.complete) {
-        dispatch({
-          type: UPDATE_DATA,
-          payload: nextState,
-        });
-        saveGame({ ...state, ...nextState }, state.id);
-      }
-      openModal({
-        title: "Scores",
-        component: lazy(() => import("../components/History")),
-      });
-    }
-  }, [
-    dispatch,
-    state.complete,
-    state.cards.length,
-    Object.keys(state.removed).length,
-    openModal,
-    state,
-
-  ]);
 
   useEffect(() => {
     return () => {
