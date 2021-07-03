@@ -37,7 +37,7 @@ const Board = ({ openModal }) => {
     }
   }, [state.start, previousStart, dispatch]);
 
-  useEffect(async () => {
+  useEffect( () => {
     if (
       Object.keys(state.removed).length === state.cards.length &&
       state.start
@@ -59,7 +59,7 @@ const Board = ({ openModal }) => {
           type: UPDATE_DATA,
           payload: nextState,
         });
-        await saveGame({ ...state, ...nextState }, state.id);
+        saveGame({ ...state, ...nextState }, state.id);
       }
       openModal({
         title: "Scores",
@@ -71,6 +71,9 @@ const Board = ({ openModal }) => {
     state.complete,
     state.cards.length,
     Object.keys(state.removed).length,
+    openModal,
+    state,
+
   ]);
 
   useEffect(() => {
